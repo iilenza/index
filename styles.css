@@ -23,7 +23,11 @@ button:hover {
   background-color: #07131b;
 }
 
-#finalPrice {
+#finalResult {
   font-size: 1.5em;
-  color: green;
+}
+
+p#loveLetter {
+  font-size: 1.2em;
+  color: #333;
 }
