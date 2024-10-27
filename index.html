@@ -10,6 +10,9 @@
   <h1>Dowry Price Calculator</h1>
 
   <form id="dowryForm">
+    <h3>Groom's Name:</h3>
+    <input type="text" id="brideName" placeholder="Enter name here" required>
+    
     <h3>Groom's Education:</h3>
     <select id="education">
       <option value="1.5">Undergraduate degree</option>
@@ -35,7 +38,7 @@
     </select>
 
     <h3>Skills:</h3>
-    <input type="checkbox" id="musical" value="10"> Playing on a musical instrument<br>
+    <input type="checkbox" id="musical" value="10"> Playing a musical instrument<br>
     <input type="checkbox" id="cook" value="20"> Good cook<br>
     <input type="checkbox" id="easygoing" value="15"> Easygoing character<br>
     <input type="checkbox" id="sing" value="10"> Sings well<br>
@@ -55,6 +58,7 @@
   </form>
 
   <h2>Final Price: <span id="finalPrice">100</span> $</h2>
+  <p id="loveLetter"></p>
 
   <script src="script.js"></script>
 </body>
