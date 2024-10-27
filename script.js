@@ -1,32 +1,50 @@
-let basePrice = 100;
+const basePrice = 100;
 
-document.getElementById("calculateBtn").addEventListener("click", function() {
+document.getElementById("calculateBtn").addEventListener("click", () => {
   let finalPrice = basePrice;
+  const brideName = document.getElementById("brideName").value;
 
-  let education = parseFloat(document.getElementById("education").value);
-  finalPrice *= education;
+  if (!brideName) {
+    alert("Please enter the name.");
+    return;
+  }
 
-  let familyNetWorth = parseFloat(document.getElementById("familyNetWorth").value);
-  finalPrice *= familyNetWorth;
+  const education = parseFloat(document.getElementById("education").value);
+  const familyNetWorth = parseFloat(document.getElementById("familyNetWorth").value);
+  finalPrice *= education * familyNetWorth;
 
-  let caste = parseInt(document.getElementById("caste").value);
+  const caste = parseInt(document.getElementById("caste").value);
   finalPrice += caste;
 
-  let skillsTotal = 0;
-  if (document.getElementById("musical").checked) skillsTotal += parseInt(document.getElementById("musical").value);
-  if (document.getElementById("cook").checked) skillsTotal += parseInt(document.getElementById("cook").value);
-  if (document.getElementById("easygoing").checked) skillsTotal += parseInt(document.getElementById("easygoing").value);
-  if (document.getElementById("sing").checked) skillsTotal += parseInt(document.getElementById("sing").value);
+  const skillsCheckboxes = ["musical", "cook", "easygoing", "sing"];
+  const skillsTotal = skillsCheckboxes.reduce((total, id) => {
+    return total + (document.getElementById(id).checked ? parseInt(document.getElementById(id).value) : 0);
+  }, 0);
   finalPrice += skillsTotal;
 
-  let age = document.querySelector('input[name="age"]:checked').value;
-  finalPrice *= parseFloat(age);
+  const ageMultiplier = parseFloat(document.querySelector('input[name="age"]:checked').value);
+  finalPrice *= ageMultiplier;
 
-  if (document.getElementById("gossipParents").checked) finalPrice *= parseFloat(document.getElementById("gossipParents").value);
-  if (document.getElementById("gossipCharacter").checked) finalPrice *= parseFloat(document.getElementById("gossipCharacter").value);
-  if (document.getElementById("gossipGeneral").checked) finalPrice += parseInt(document.getElementById("gossipGeneral").value);
+  const reputationChecks = [
+    { id: "gossipParents", multiplier: parseFloat(document.getElementById("gossipParents").value) },
+    { id: "gossipCharacter", multiplier: parseFloat(document.getElementById("gossipCharacter").value) },
+    { id: "gossipGeneral", multiplier: parseFloat(document.getElementById("gossipGeneral").value), addToPrice: true }
+  ];
 
-  document.getElementById("finalPrice").textContent = finalPrice.toFixed(2);
+  reputationChecks.forEach(({ id, multiplier, addToPrice }) => {
+    if (document.getElementById(id).checked) {
+      if (addToPrice) {
+        finalPrice += multiplier;
+      } else {
+        finalPrice *= multiplier;
+      }
+    }
+  });
 
+  finalPrice = Math.round(finalPrice);
+
+  document.getElementById("finalPrice").textContent = finalPrice;
   document.getElementById("finalPrice").style.color = finalPrice > 200 ? "green" : "red";
+
+  document.getElementById("loveLetter").textContent = `Your price for ${brideName} is $${finalPrice}. Dearest ${brideName}, my heart belongs to you. With every quality, your worth grows, and I am ever more certain that our love is priceless.`;
 });
